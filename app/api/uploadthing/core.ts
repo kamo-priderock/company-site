@@ -17,11 +17,11 @@ export const ourFileRouter = {
       return { uploadedBy: metadata.userId, url: file.url };
     }),
 
-  multiImageUploader: f({ 
-    image: { 
+  multiImageUploader: f({
+    image: {
       maxFileSize: "16MB",
-      maxFileCount: 10 
-    } 
+      maxFileCount: 50,
+    },
   })
     .middleware(async () => {
       return { userId: "admin" };

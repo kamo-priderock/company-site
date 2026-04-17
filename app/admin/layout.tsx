@@ -1,18 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Image, 
-  FileText, 
-  Briefcase, 
+import {
+  LayoutDashboard,
+  Image,
+  FileText,
+  Briefcase,
   Settings,
   Users,
   LogOut,
   ChevronRight,
   Home,
-  ChevronDown
-} from 'lucide-react';
+  ChevronDown,
+  Layers,
+} from "lucide-react";
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -37,8 +38,13 @@ const menuItems: MenuItem[] = [
     icon: Home, 
     label: 'Home Page',
     children: [
-      { icon: Image, label: 'Hero Carousel', href: '/admin/home/hero' },
-      { icon: Home, label: 'Categories', href: '/admin/home/categories' },
+      { icon: Image, label: "Hero Carousel", href: "/admin/home/hero" },
+      { icon: Home, label: "Categories", href: "/admin/home/categories" },
+      {
+        icon: Layers,
+        label: "Category landing pages",
+        href: "/admin/home/category-pages",
+      },
       { icon: FileText, label: 'About Section', href: '/admin/home/about' },
       { icon: Briefcase, label: 'Projects Section', href: '/admin/home/projects' },
       { icon: Image, label: 'Visual Showcase', href: '/admin/home/visual-showcase' },

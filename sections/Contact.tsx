@@ -3,7 +3,23 @@
 import { motion } from "framer-motion";
 import { ContactForm } from "../components/ContactForm";
 
-export function Contact() {
+const DEFAULT_MAP_EMBED =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.686526149866!2d18.85984431521151!3d-33.93635598063756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc45c8b5b5b5b5%3A0x1b5b5b5b5b5b5b5b!2s16%20Mill%20St%2C%20Stellenbosch%20Central%2C%20Stellenbosch%2C%207600%2C%20South%20Africa!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus";
+
+function mapEmbedSrcFromQuery(query: string) {
+  const q = encodeURIComponent(query.trim());
+  return `https://maps.google.com/maps?q=${q}&hl=en&z=14&output=embed`;
+}
+
+interface ContactProps {
+  /** Full address text for the map; first office line from the contact page */
+  mapSearchQuery?: string;
+}
+
+export function Contact({ mapSearchQuery }: ContactProps) {
+  const query = mapSearchQuery?.trim();
+  const mapSrc = query ? mapEmbedSrcFromQuery(query) : DEFAULT_MAP_EMBED;
+
   return (
     <section className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
@@ -39,7 +55,7 @@ export function Contact() {
           className="w-full h-[400px] bg-slate-200 rounded-3xl overflow-hidden relative shadow-md"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.686526149866!2d18.85984431521151!3d-33.93635598063756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc45c8b5b5b5b5%3A0x1b5b5b5b5b5b5b5b!2s16%20Mill%20St%2C%20Stellenbosch%20Central%2C%20Stellenbosch%2C%207600%2C%20South%20Africa!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
+            src={mapSrc}
             width="100%"
             height="100%"
             style={{ border: 0 }}

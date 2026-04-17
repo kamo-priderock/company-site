@@ -1,18 +1,45 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Save, X, Image as ImageIcon, Loader2 } from 'lucide-react';
-import { UploadButton } from '@uploadthing/react';
-import type { OurFileRouter } from '@/app/api/uploadthing/core';
+import { useState, useEffect } from "react";
+import {
+  Plus,
+  Edit2,
+  Trash2,
+  Save,
+  X,
+  Image as ImageIcon,
+  Loader2,
+} from "lucide-react";
+import { UploadButton } from "@uploadthing/react";
+import type { OurFileRouter } from "@/app/api/uploadthing/core";
+import toast, { Toaster } from "react-hot-toast";
+import { CATEGORY_PAGE_SLUGS } from "@/lib/categoryPageSlugs";
 
 interface Category {
   _id?: string;
   title: string;
   image: string;
   link: string;
+  pageSlug?: string;
   order: number;
   isActive: boolean;
 }
+
+function linkForPageSlug(pageSlug: string): string {
+  if (!pageSlug) return "";
+  return `/${pageSlug}`;
+}
+
+const PAGE_SLUG_OPTIONS: { value: string; label: string }[] = [
+  { value: "", label: "None (custom link only)" },
+  ...CATEGORY_PAGE_SLUGS.map((s) => ({
+    value: s,
+    label:
+      s === "mixed-use"
+        ? "Mixed-use"
+        : s.charAt(0).toUpperCase() + s.slice(1),
+  })),
+];
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -21,9 +48,10 @@ export default function CategoriesPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [formData, setFormData] = useState<Category>({
-    title: '',
-    image: '',
-    link: '',
+    title: "",
+    image: "",
+    link: "",
+    pageSlug: "",
     order: 0,
     isActive: true,
   });
@@ -34,7 +62,7 @@ export default function CategoriesPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/categories');
+      const response = await fetch("/api/categories?includeInactive=true");
       const data = await response.json();
       setCategories(data.categories || []);
     } catch (error) {
@@ -45,16 +73,20 @@ export default function CategoriesPage() {
   };
 
   const handleEdit = (category: Category) => {
-    setFormData(category);
+    setFormData({
+      ...category,
+      pageSlug: category.pageSlug ?? "",
+    });
     setEditingId(category._id || null);
     setIsAdding(false);
   };
 
   const handleAdd = () => {
     setFormData({
-      title: '',
-      image: '',
-      link: '',
+      title: "",
+      image: "",
+      link: "",
+      pageSlug: "",
       order: categories.length,
       isActive: true,
     });
@@ -75,26 +107,28 @@ export default function CategoriesPage() {
         if (response.ok) {
           await fetchCategories();
           resetForm();
+          toast.success("Category created");
         } else {
-          alert('Failed to create category');
+          toast.error("Failed to create category");
         }
       } else if (editingId) {
         const response = await fetch(`/api/categories/${editingId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         });
 
         if (response.ok) {
           await fetchCategories();
           resetForm();
+          toast.success("Category updated");
         } else {
-          alert('Failed to update category');
+          toast.error("Failed to update category");
         }
       }
     } catch (error) {
-      console.error('Error saving:', error);
-      alert('An error occurred while saving');
+      console.error("Error saving:", error);
+      toast.error("An error occurred while saving");
     } finally {
       setSaving(false);
     }
@@ -110,20 +144,22 @@ export default function CategoriesPage() {
 
       if (response.ok) {
         await fetchCategories();
+        toast.success("Category deleted");
       } else {
-        alert('Failed to delete category');
+        toast.error("Failed to delete category");
       }
     } catch (error) {
-      console.error('Error deleting:', error);
-      alert('An error occurred while deleting');
+      console.error("Error deleting:", error);
+      toast.error("An error occurred while deleting");
     }
   };
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      image: '',
-      link: '',
+      title: "",
+      image: "",
+      link: "",
+      pageSlug: "",
       order: 0,
       isActive: true,
     });
@@ -141,6 +177,7 @@ export default function CategoriesPage() {
 
   return (
     <div className="space-y-6">
+      <Toaster position="top-right" />
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -184,13 +221,47 @@ export default function CategoriesPage() {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">
+                Property category page
+              </label>
+              <select
+                value={formData.pageSlug ?? ""}
+                onChange={(e) => {
+                  const pageSlug = e.target.value;
+                  setFormData({
+                    ...formData,
+                    pageSlug,
+                    link: pageSlug
+                      ? linkForPageSlug(pageSlug)
+                      : formData.link,
+                  });
+                }}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 bg-white"
+              >
+                {PAGE_SLUG_OPTIONS.map((opt) => (
+                  <option key={opt.value || "none"} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-xs text-slate-500">
+                Choosing a category sets the tile link to that route (for example{" "}
+                <code className="rounded bg-slate-100 px-1">/commercial</code>).
+                Select &quot;None&quot; to use a fully custom link below.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">
                 Link
               </label>
               <input
                 type="text"
                 value={formData.link}
-                onChange={(e) => setFormData({ ...formData, link: e.target.value })}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                onChange={(e) =>
+                  setFormData({ ...formData, link: e.target.value })
+                }
+                disabled={Boolean(formData.pageSlug)}
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 disabled:cursor-not-allowed disabled:bg-slate-100"
                 placeholder="/services or /projects"
               />
             </div>
@@ -248,12 +319,14 @@ export default function CategoriesPage() {
                   onClientUploadComplete={(res) => {
                     if (res && res[0]) {
                       setFormData({ ...formData, image: res[0].url });
-                      alert('Image uploaded successfully!');
+                      toast.success("Image uploaded");
                     }
                   }}
                   onUploadError={(error: Error) => {
-                    console.error('Upload error:', error);
-                    alert(`Upload failed: ${error.message}\n\nPlease make sure your image is under 16MB.`);
+                    console.error("Upload error:", error);
+                    toast.error(
+                      `Upload failed: ${error.message}. Use an image under 16MB.`
+                    );
                   }}
                   onUploadBegin={(name) => {
                     console.log('Uploading:', name);
@@ -354,6 +427,11 @@ export default function CategoriesPage() {
                 <div className="absolute bottom-6 left-6">
                   <h3 className="text-white text-xl font-medium">{category.title}</h3>
                   <p className="text-white/70 text-sm mt-1">{category.link}</p>
+                  {category.pageSlug ? (
+                    <p className="mt-1 text-xs text-amber-200/90">
+                      Page: {category.pageSlug}
+                    </p>
+                  ) : null}
                   <span className="text-xs bg-white/20 text-white px-2 py-1 rounded mt-2 inline-block">
                     Order: {category.order}
                   </span>
