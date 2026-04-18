@@ -106,7 +106,7 @@ export function CategoryPropertyPage({ slug }: { slug: CategoryPageSlug }) {
   return (
     <div className="min-h-screen bg-white">
       <section
-        className={`relative flex h-[70vh] items-center overflow-hidden ${heroCentered ? "justify-center" : ""}`}
+        className={`relative flex h-[45vh] items-center overflow-hidden ${heroCentered ? "justify-center" : ""}`}
       >
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -129,19 +129,19 @@ export function CategoryPropertyPage({ slug }: { slug: CategoryPageSlug }) {
               heroCentered ? "mx-auto max-w-4xl" : "max-w-3xl"
             }
           >
-            <span className="mb-6 inline-block rounded-full bg-amber-500 px-4 py-2 text-sm font-bold uppercase tracking-wider text-slate-900">
+            <span className="mb-4 inline-block rounded-full bg-amber-500 px-4 py-2 text-xs font-bold uppercase tracking-wider text-slate-900">
               {page.heroEyebrow}
             </span>
-            <h1 className="mb-6 font-serif text-5xl font-bold leading-tight text-white md:text-7xl">
+            <h1 className="mb-4 mt-2 font-serif text-4xl font-bold leading-tight text-white md:text-6xl">
               {page.heroTitle}
             </h1>
             <p
-              className={`mb-8 text-xl leading-relaxed text-slate-200 ${heroCentered ? "mx-auto max-w-2xl" : ""}`}
+              className={`mb-6 mt-3 text-lg leading-relaxed text-slate-200 ${heroCentered ? "mx-auto max-w-2xl" : ""}`}
             >
               {page.heroSubtitle}
             </p>
             <div
-              className={`flex flex-wrap gap-4 ${heroCentered ? "justify-center" : ""}`}
+              className={`flex flex-wrap gap-4 mt-4 ${heroCentered ? "justify-center" : ""}`}
             >
               <Link
                 href={page.heroCta1Href || "/contact"}
@@ -159,6 +159,50 @@ export function CategoryPropertyPage({ slug }: { slug: CategoryPageSlug }) {
               </Link>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      <section id="projects" className="py-24">
+        <div className="container mx-auto px-6 md:px-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mx-auto mb-16 max-w-3xl text-center"
+          >
+            <span className="text-sm font-bold uppercase tracking-wider text-amber-600">
+              {page.projectsEyebrow}
+            </span>
+            <h2 className="mt-4 mb-6 font-serif text-4xl font-bold text-slate-900 md:text-5xl">
+              {page.projectsTitle}
+            </h2>
+            <p className="text-xl text-slate-600">{page.projectsIntro}</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project, index) => (
+              <ProjectCard
+                key={project._id}
+                id={project._id}
+                title={project.title}
+                type={project.type}
+                location={project.location}
+                status={project.status}
+                image={project.image}
+                index={index}
+              />
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link
+              href={page.projectsButtonLink || "/projects"}
+              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 font-semibold text-white transition-colors hover:bg-slate-800"
+            >
+              {page.projectsButtonText}
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -411,50 +455,6 @@ export function CategoryPropertyPage({ slug }: { slug: CategoryPageSlug }) {
           </div>
         </section>
       )}
-
-      <section id="projects" className="py-24">
-        <div className="container mx-auto px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mx-auto mb-16 max-w-3xl text-center"
-          >
-            <span className="text-sm font-bold uppercase tracking-wider text-amber-600">
-              {page.projectsEyebrow}
-            </span>
-            <h2 className="mt-4 mb-6 font-serif text-4xl font-bold text-slate-900 md:text-5xl">
-              {page.projectsTitle}
-            </h2>
-            <p className="text-xl text-slate-600">{page.projectsIntro}</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={project._id}
-                id={project._id}
-                title={project.title}
-                type={project.type}
-                location={project.location}
-                status={project.status}
-                image={project.image}
-                index={index}
-              />
-            ))}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link
-              href={page.projectsButtonLink || "/projects"}
-              className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 font-semibold text-white transition-colors hover:bg-slate-800"
-            >
-              {page.projectsButtonText}
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-24">
         <div className="container mx-auto px-6 md:px-12">

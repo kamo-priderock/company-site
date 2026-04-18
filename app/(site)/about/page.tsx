@@ -51,7 +51,7 @@ export default function AboutPage() {
       transition={{ duration: 0.5 }}
       className="pt-24 bg-white"
     >
-      <div className="relative h-[40vh] md:h-[50vh] w-full overflow-hidden">
+      <div className="relative h-[35vh] md:h-[40vh] w-full overflow-hidden">
         {bannerLoading ? (
           <div className="absolute inset-0 bg-slate-900 flex items-center justify-center">
             <Loader2 className="w-10 h-10 animate-spin text-amber-500" aria-label="Loading" />
@@ -68,7 +68,7 @@ export default function AboutPage() {
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-5xl md:text-7xl font-bold text-white mb-6 font-serif"
+                  className="text-4xl md:text-6xl font-bold text-white mb-4 mt-2 font-serif"
                 >
                   {bannerTitle}
                 </motion.h1>
@@ -76,7 +76,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-xl text-slate-200 max-w-2xl mx-auto"
+                  className="text-lg text-slate-200 max-w-2xl mx-auto mt-3"
                 >
                   {bannerSubtitle}
                 </motion.p>

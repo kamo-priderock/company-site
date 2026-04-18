@@ -243,7 +243,7 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                   </div>
                 </div>
 
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-serif leading-tight">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 font-serif leading-tight whitespace-pre-line">
                   {project.title}
                 </h1>
 
@@ -547,10 +547,10 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                       href={mailHref}
                       className="flex items-center gap-3 p-4 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
                     >
-                      <Mail className="w-5 h-5" />
-                      <div>
+                      <Mail className="w-5 h-5 shrink-0" />
+                      <div className="min-w-0 flex-1">
                         <p className="text-xs text-slate-400">Email Us</p>
-                        <p className="font-semibold break-all">
+                        <p className="font-semibold truncate">
                           {project.contactEmail}
                         </p>
                       </div>

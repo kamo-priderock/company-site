@@ -407,12 +407,13 @@ export default function ProjectsListPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Title *
+                  Title * (can use multiple lines)
                 </label>
-                <input
+                <textarea
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500"
+                  rows={2}
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 resize-y"
                 />
               </div>
               <div>
@@ -899,7 +900,7 @@ export default function ProjectsListPage() {
                 )}
               </div>
               <div className="p-4">
-                <h3 className="font-bold text-slate-900">{p.title}</h3>
+                <h3 className="font-bold text-slate-900 whitespace-pre-line">{p.title}</h3>
                 <p className="text-xs text-slate-500 mt-1">
                   {p.type} · {p.status} · order {p.order}
                 </p>

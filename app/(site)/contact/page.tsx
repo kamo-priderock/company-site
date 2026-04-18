@@ -78,7 +78,7 @@ export default function Contact() {
       transition={{ duration: 0.5 }}
       className="pt-24 bg-slate-50"
     >
-      <div className="relative h-[40vh] md:h-[50vh] w-full overflow-hidden">
+      <div className="relative h-[35vh] md:h-[40vh] w-full overflow-hidden">
         {!ready ? (
           <div className="absolute inset-0 bg-slate-900 flex items-center justify-center">
             <Loader2
