@@ -199,7 +199,6 @@ export default function Projects() {
                           location={project.location}
                           status={project.status}
                           image={project.image}
-                          logo={project.logo}
                           index={index}
                         />
                       </motion.div>

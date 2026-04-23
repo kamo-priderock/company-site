@@ -13,7 +13,6 @@ interface ProjectCardProps {
   location: string;
   status: string;
   image: string;
-  logo?: string;
   index: number;
 }
 
@@ -24,7 +23,6 @@ export function ProjectCard({
   location,
   status,
   image,
-  logo,
   index,
 }: ProjectCardProps) {
   const projectId = id ?? String(index + 1);
@@ -49,20 +47,6 @@ export function ProjectCard({
         />
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-
-        {logo ? (
-          <div className="absolute left-4 top-4 z-10 rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur-sm">
-            <Image
-              src={logo}
-              alt={`${title} logo`}
-              width={88}
-              height={36}
-              unoptimized
-              referrerPolicy="no-referrer"
-              className="h-9 w-auto object-contain"
-            />
-          </div>
-        ) : null}
 
         <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end h-full">
           <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">

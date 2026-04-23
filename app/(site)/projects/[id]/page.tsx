@@ -254,20 +254,6 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                   {project.title}
                 </h1>
 
-                {project.logo ? (
-                  <div className="mb-6 inline-flex rounded-xl bg-white/95 p-2 shadow-lg backdrop-blur-sm">
-                    <Image
-                      src={project.logo}
-                      alt={`${project.title} logo`}
-                      width={160}
-                      height={56}
-                      unoptimized
-                      referrerPolicy="no-referrer"
-                      className="h-12 w-auto object-contain"
-                    />
-                  </div>
-                ) : null}
-
                 <div className="flex flex-wrap gap-8 text-white">
                   <div>
                     <p className="text-sm text-slate-300 mb-1">Total Area</p>
@@ -348,13 +334,28 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                 viewport={{ once: true }}
                 className="space-y-6"
               >
-                <div>
-                  <span className="text-amber-600 font-bold uppercase tracking-wider text-sm">
-                    Overview
-                  </span>
-                  <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mt-2 font-serif">
-                    Project Description
-                  </h2>
+                <div className="flex items-center justify-between gap-6">
+                  <div>
+                    <span className="text-amber-600 font-bold uppercase tracking-wider text-sm">
+                      Overview
+                    </span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mt-2 font-serif">
+                      Project Description
+                    </h2>
+                  </div>
+                  {project.logo ? (
+                    <div className="inline-flex rounded-xl border border-slate-200 bg-white p-2 shadow-sm shrink-0">
+                      <Image
+                        src={project.logo}
+                        alt={`${project.title} logo`}
+                        width={160}
+                        height={56}
+                        unoptimized
+                        referrerPolicy="no-referrer"
+                        className="h-12 w-auto object-contain"
+                      />
+                    </div>
+                  ) : null}
                 </div>
                 <p className="text-xl text-slate-600 leading-relaxed whitespace-pre-line">
                   {project.description}
