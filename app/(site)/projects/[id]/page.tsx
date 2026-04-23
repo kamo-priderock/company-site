@@ -356,7 +356,7 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                     Project Description
                   </h2>
                 </div>
-                <p className="text-xl text-slate-600 leading-relaxed">
+                <p className="text-xl text-slate-600 leading-relaxed whitespace-pre-line">
                   {project.description}
                 </p>
               </motion.div>
