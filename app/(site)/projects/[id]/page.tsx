@@ -344,15 +344,15 @@ function ProjectDetailView({ project }: { project: ProjectDetailUI }) {
                     </h2>
                   </div>
                   {project.logo ? (
-                    <div className="inline-flex rounded-xl border border-slate-200 bg-white p-2 shadow-sm shrink-0">
+                    <div className="inline-flex rounded-xl border border-slate-200 bg-white p-3 shadow-sm shrink-0">
                       <Image
                         src={project.logo}
                         alt={`${project.title} logo`}
-                        width={160}
-                        height={56}
+                        width={200}
+                        height={80}
                         unoptimized
                         referrerPolicy="no-referrer"
-                        className="h-12 w-auto object-contain"
+                        className="h-16 w-auto object-contain"
                       />
                     </div>
                   ) : null}
