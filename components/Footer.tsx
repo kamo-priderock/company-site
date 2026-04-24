@@ -59,33 +59,17 @@ export function Footer() {
           </div>
 
           {/* Newsletter */}
-          <div>
-            <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Newsletter</h4>
-            <p className="text-sm mb-4">Subscribe to receive updates on our latest projects and industry insights.</p>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="Email address"
-                className="w-full px-4 py-2 bg-slate-900 border border-slate-800 rounded-lg focus:outline-none focus:border-amber-500 text-white text-sm"
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-medium transition-colors"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
+          
         </div>
 
         {/* Bottom */}
         <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
           <p>&copy; {currentYear} ModernSpaces Property Developers. All rights reserved.</p>
-          <div className="flex gap-6">
+          {/* <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
             <a href="#" className="hover:text-white transition-colors">Cookie Policy</a>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
