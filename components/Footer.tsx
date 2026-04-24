@@ -14,7 +14,7 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-2xl tracking-tight">
-                <Image src="/PrideRock.png" alt="Pride Rock Property Group Logo" width={48} height={48} className="w-12 h-12 object-contain" />
+              <Image src="/PrideRock.png" alt="Pride Rock Property Group Logo" width={48} height={48} className="w-12 h-12 object-contain" />
               Pride Rock
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
@@ -51,16 +51,16 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-6 uppercase tracking-wider text-sm">Services</h4>
             <ul className="space-y-4">
-              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Commercial Development</Link></li>
-              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Retail Spaces</Link></li>
-              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Industrial Parks</Link></li>
-              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Residential Communities</Link></li>
-              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Property Management</Link></li>
+              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Property Development & Facilitation</Link></li>
+              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Mixed -use precincts
+              </Link></li>
+              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Finance</Link></li>
+              <li><Link href="/services" className="hover:text-amber-400 transition-colors">Conceptual designs</Link></li>
             </ul>
           </div>
 
           {/* Newsletter */}
-          
+
         </div>
 
         {/* Bottom */}
