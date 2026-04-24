@@ -10,7 +10,18 @@ import { cn } from "../lib/utils";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -57,7 +68,12 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="relative z-50 hidden items-center gap-7 lg:flex">
+        <nav
+          className="relative z-50 items-center gap-7"
+          style={{
+            display: isDesktop ? "flex" : "none",
+          }}
+        >
           {navLinks.map((link) => (
             <Link
               key={link.name}
@@ -78,7 +94,10 @@ export function Header() {
         {/* Mobile Menu Toggle */}
         <button
           type="button"
-          className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-xl text-slate-900 transition-colors hover:bg-slate-100 lg:hidden"
+          className="inline-flex min-h-12 min-w-12 items-center justify-center rounded-xl text-slate-900 transition-colors hover:bg-slate-100"
+          style={{
+            display: isDesktop ? "none" : "inline-flex",
+          }}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-menu-panel"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -103,6 +122,9 @@ export function Header() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.18 }}
               className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40"
+              style={{
+                display: isDesktop ? "none" : "block",
+              }}
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
@@ -113,7 +135,10 @@ export function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 320 }}
-              className="fixed right-0 top-0 z-50 flex h-full w-[84vw] max-w-[320px] flex-col bg-white shadow-2xl lg:hidden"
+              className="fixed right-0 top-0 z-50 flex h-full w-[84vw] max-w-[320px] flex-col bg-white shadow-2xl"
+              style={{
+                display: isDesktop ? "none" : "flex",
+              }}
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">

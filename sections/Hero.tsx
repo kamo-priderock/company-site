@@ -155,21 +155,6 @@ export function Hero() {
               <p className="mb-5 line-clamp-2 text-sm leading-relaxed text-slate-100/95 sm:text-base">
                 {supportText}
               </p>
-
-              <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
-                <Link
-                  href="/projects"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-amber-500 px-5 text-sm font-semibold text-slate-900 shadow-md transition hover:bg-amber-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-                >
-                  View Projects
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 bg-white/10 px-5 text-sm font-medium text-white transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
-                >
-                  Contact Us
-                </Link>
-              </div>
             </motion.div>
           </div>
         </div>
