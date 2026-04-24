@@ -79,7 +79,7 @@ export function Header() {
               isScrolled || pathname !== "/" ? "text-slate-900" : "text-white"
             )}
           >
-            Pride Rock
+            Pride Rock Property Group
           </span>
         </Link>
 

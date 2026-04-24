@@ -60,7 +60,8 @@ export function Projects() {
   const displayProjects: DisplayProject[] = (() => {
     if (apiProjects === null) return [];
     if (apiProjects.length > 0) {
-      const slice = isHomePage ? apiProjects.slice(0, 8) : apiProjects;
+      // Always limit to 8 projects
+      const slice = apiProjects.slice(0, 8);
       return slice.map((p) => ({
         id: p._id,
         title: p.title,
@@ -71,7 +72,8 @@ export function Projects() {
         logo: p.logo,
       }));
     }
-    const mockSlice = isHomePage ? mockProjects.slice(0, 8) : mockProjects;
+    // Fallback to mock data, limited to 8
+    const mockSlice = mockProjects.slice(0, 8);
     return mockSlice.map((p) => ({
       title: p.title,
       type: p.type,
