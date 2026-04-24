@@ -78,7 +78,7 @@ export function PropertyDevelopment() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6 font-serif"
           >
-            Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-500">ModernSpaces</span> for Your Next Development?
+            Why Choose <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-500">Pride Rock Property Group</span> for Your Next Development?
           </motion.h2>
 
           <motion.p

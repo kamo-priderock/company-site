@@ -6,7 +6,7 @@ import {
 
 // Get environment variables
 const BREVO_API_KEY = process.env.BREVO_API_KEY || "";
-const BREVO_FROM_EMAIL = process.env.BREVO_FROM_EMAIL || "noreply@modernspaces.co.za";
+const BREVO_FROM_EMAIL = process.env.BREVO_FROM_EMAIL || "noreply@priderockpropertygroup.co.za";
 const BREVO_FROM_NAME = process.env.BREVO_FROM_NAME || "Pride Rock";
 
 // Initialize Brevo API client

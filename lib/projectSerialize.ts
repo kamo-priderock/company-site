@@ -31,7 +31,7 @@ export type ProjectDetailUI = {
 };
 
 const DEFAULT_PHONE = "021 141 2370";
-const DEFAULT_EMAIL = "info@modernspaces.co.za";
+const DEFAULT_EMAIL = "info@priderockpropertygroup.co.za";
 
 export type ProjectPlain = {
   _id: unknown;

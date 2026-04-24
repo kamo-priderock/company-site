@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function AboutContentPage() {
   const [content, setContent] = useState({
-    title: 'About ModernSpaces',
+    title: 'About Pride Rock Property Group',
     subtitle: 'Building Excellence Since 1994',
     description: 'We are a premier property development company...',
     image: '',

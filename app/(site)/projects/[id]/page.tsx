@@ -48,7 +48,7 @@ function mockDetailToUI(
     gallery: p.gallery || [],
     gallerySections: [],
     contactPhone: "021 141 2370",
-    contactEmail: "info@modernspaces.co.za",
+    contactEmail: "info@priderockpropertygroup.co.za",
     brochureUrl: "",
   };
 }

@@ -89,7 +89,7 @@ export async function submitContactForm(data: ContactFormData) {
           <div class="container">
             <div class="header">
               <h1 style="margin: 0; font-size: 24px;">New Contact Form Submission</h1>
-              <p style="margin: 10px 0 0 0; opacity: 0.9;">Modern Spaces Property Development</p>
+              <p style="margin: 10px 0 0 0; opacity: 0.9;">Pride rock property group</p>
             </div>
             <div class="content">
               <div class="field">
@@ -118,7 +118,7 @@ export async function submitContactForm(data: ContactFormData) {
               </div>
               
               <div class="footer">
-                <p>This email was sent from the Modern Spaces contact form</p>
+                <p>This email was sent from the Pride rock property group contact form</p>
                 <p>Received on ${new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg' })}</p>
               </div>
             </div>
@@ -129,7 +129,7 @@ export async function submitContactForm(data: ContactFormData) {
 
     // Create plain text version
     const textContent = `
-New Contact Form Submission - Modern Spaces
+New Contact Form Submission - Pride rock property group
 
 Name: ${data.firstName} ${data.lastName}
 Email: ${data.email}
@@ -195,12 +195,12 @@ Received on ${new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesbur
           <div class="container">
             <div class="header">
               <h1 style="margin: 0; font-size: 24px;">Thank You for Contacting Us</h1>
-              <p style="margin: 10px 0 0 0; opacity: 0.9;">Modern Spaces Property Development</p>
+              <p style="margin: 10px 0 0 0; opacity: 0.9;">Pride Rock Property Group</p>
             </div>
             <div class="content">
               <p>Dear ${data.firstName},</p>
               
-              <p>Thank you for reaching out to Modern Spaces. We have received your enquiry regarding <strong>${data.enquiryType}</strong>.</p>
+              <p>Thank you for reaching out to Pride Rock Property Group. We have received your enquiry regarding <strong>${data.enquiryType}</strong>.</p>
               
               <p>Our team will review your message and get back to you within 24-48 hours during business days.</p>
               
@@ -215,12 +215,12 @@ Received on ${new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesbur
               <p>In the meantime, feel free to explore our website to learn more about our projects and services.</p>
               
               <p>Best regards,<br>
-              <strong>Modern Spaces Team</strong></p>
+              <strong> Pride Rock Property Group Team</strong></p>
               
               <div class="footer">
                 <p><strong>Contact Us:</strong></p>
-                <p>Phone: 021 141 2370 | Email: info@modernspaces.co.za</p>
-                <p style="margin-top: 10px;">&copy; ${new Date().getFullYear()} Modern Spaces. All rights reserved.</p>
+                <p>Phone: 021 141 2370 | Email: info@priderockpropertygroup.co.za</p>
+                <p style="margin-top: 10px;">&copy; ${new Date().getFullYear()} Pride Rock Property Group. All rights reserved.</p>
               </div>
             </div>
           </div>
@@ -231,7 +231,7 @@ Received on ${new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesbur
     const confirmationText = `
 Dear ${data.firstName},
 
-Thank you for reaching out to Modern Spaces. We have received your enquiry regarding ${data.enquiryType}.
+Thank you for reaching out to Pride Rock Property Group. We have received your enquiry regarding ${data.enquiryType}.
 
 Our team will review your message and get back to you within 24-48 hours during business days.
 
@@ -244,18 +244,18 @@ Your enquiry details:
 In the meantime, feel free to explore our website to learn more about our projects and services.
 
 Best regards,
-Modern Spaces Team
+Pride Rock Property Group
 
 Contact Us:
 Phone: 021 141 2370
-Email: info@modernspaces.co.za
+Email: info@priderockpropertygroup.co.za
 
-© ${new Date().getFullYear()} Modern Spaces. All rights reserved.
+© ${new Date().getFullYear()} Pride Rock Property Group. All rights reserved.
     `;
 
     await sendMail(
       data.email,
-      "Thank you for contacting Modern Spaces",
+      "Thank you for contacting Pride Rock Property Group",
       confirmationText,
       confirmationHtml
     );

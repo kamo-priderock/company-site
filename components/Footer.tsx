@@ -14,7 +14,7 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-6">
             <Link href="/" className="flex items-center gap-2 text-white font-bold text-2xl tracking-tight">
-                <Image src="/PrideRock.png" alt="ModernSpaces Logo" width={48} height={48} className="w-12 h-12 object-contain" />
+                <Image src="/PrideRock.png" alt="Pride Rock Property Group Logo" width={48} height={48} className="w-12 h-12 object-contain" />
               Pride Rock
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
@@ -65,7 +65,7 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="pt-8 border-t border-slate-900 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-          <p>&copy; {currentYear} ModernSpaces Property Developers. All rights reserved.</p>
+          <p>&copy; {currentYear} Pride Rock Property Group. All rights reserved.</p>
           {/* <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
