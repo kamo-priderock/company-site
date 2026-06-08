@@ -13,6 +13,7 @@ import {
   Home,
   ChevronDown,
   Layers,
+  PanelBottom,
 } from "lucide-react";
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -34,6 +35,7 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
+  { icon: PanelBottom, label: 'Footer', href: '/admin/footer' },
   { 
     icon: Home, 
     label: 'Home Page',
