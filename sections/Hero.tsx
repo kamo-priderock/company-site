@@ -95,12 +95,13 @@ export function Hero() {
     .map((line) => line.trim())
     .filter(Boolean)
     .slice(0, 2);
+  const titleText = titleLines.join(" ");
 
   const supportText = active.description.trim();
 
   return (
     <section className="relative w-full overflow-x-clip">
-      <div className="relative h-[68svh] min-h-[520px] w-full overflow-hidden sm:h-[70svh] md:h-[74vh]">
+  <div className="relative h-[68svh] min-h-[520px] w-full overflow-hidden sm:h-[70svh] md:h-[70vh]">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={active._id}
@@ -125,21 +126,17 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="absolute inset-x-0 bottom-0 px-4 pb-6 pt-12 sm:px-6 md:px-10 md:pb-10">
+        <div className="absolute inset-0 flex items-end px-4 pb-6 pt-12 sm:px-6 md:items-center md:px-10 md:pb-0">
           <div className="mx-auto w-full max-w-6xl">
             <motion.div
               key={`content-${active._id}`}
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              className="max-w-xl rounded-2xl border border-white/20 bg-black/55 p-5 text-white shadow-xl backdrop-blur-md sm:p-6"
+              className="max-w-xl overflow-hidden rounded-2xl border border-white/20 bg-black/55 p-5 text-white shadow-xl backdrop-blur-md sm:p-6 md:max-w-2xl md:rounded-none md:border-l md:border-t md:border-r md:border-b md:border-white/25 md:bg-black/50 md:p-8 md:shadow-[0_12px_30px_rgba(2,6,23,0.35)] lg:p-12"
             >
-              <h1 className="mb-3 text-3xl font-bold leading-tight tracking-tight font-serif sm:text-4xl">
-                {titleLines.map((line, idx) => (
-                  <span key={idx} className="block">
-                    {line}
-                  </span>
-                ))}
+              <h1 className="mb-3 line-clamp-2 break-words text-3xl font-bold leading-tight tracking-tight font-serif sm:text-4xl md:mb-4 md:text-5xl lg:text-6xl">
+                {titleText}
               </h1>
 
               <div className="mb-4 flex flex-wrap items-center gap-2.5 text-sm">
@@ -152,7 +149,7 @@ export function Hero() {
                 </div>
               </div>
 
-              <p className="mb-5 line-clamp-2 text-sm leading-relaxed text-slate-100/95 sm:text-base">
+              <p className="mb-2 line-clamp-2 break-words text-sm leading-relaxed text-slate-100/95 sm:line-clamp-3 sm:text-base md:mb-0 md:line-clamp-3 md:text-lg md:text-slate-200 lg:line-clamp-4">
                 {supportText}
               </p>
             </motion.div>
@@ -180,13 +177,13 @@ export function Hero() {
       </div>
 
       {categories.length > 0 && (
-        <div className="container relative z-20 mx-auto -mt-2 px-4 pb-10 sm:px-6 md:-mt-6 md:px-10">
+        <div className="container relative z-20 mx-auto -mt-2 px-4 pb-10 sm:px-6 md:-mt-24 md:px-10 md:pb-12">
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
             {categories.map((category) => (
               <Link
                 key={category._id}
                 href={category.link}
-                className="group relative block h-32 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-sm transition hover:shadow-md sm:h-36 md:h-44"
+                className="group relative block h-32 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 shadow-sm transition-all duration-300 hover:shadow-md sm:h-36 md:h-64 md:rounded-none md:border md:border-white/20 md:hover:border-white/40 md:shadow-none"
               >
                 <Image
                   src={category.image}
@@ -197,9 +194,9 @@ export function Hero() {
                   unoptimized
                   referrerPolicy="no-referrer"
                 />
-                <div className="absolute inset-0 bg-slate-900/50 group-hover:bg-slate-900/35" />
-                <div className="absolute inset-x-3 bottom-3">
-                  <h3 className="line-clamp-2 text-sm font-semibold text-white sm:text-base">
+                <div className="absolute inset-0 bg-blue-950/70 transition-colors duration-300 group-hover:bg-blue-950/50" />
+                <div className="absolute inset-x-3 bottom-3 md:bottom-6 md:left-6 md:right-auto">
+                  <h3 className="line-clamp-2 text-sm font-semibold text-white sm:text-base md:text-2xl md:font-medium md:tracking-wide">
                     {category.title}
                   </h3>
                 </div>

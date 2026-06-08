@@ -86,7 +86,7 @@ export function About() {
             </p>
 
             {content.features.length > 0 && (
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+              <ul className="mt-6 grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-3">
                 {content.features.map((feature, index) => (
                   <motion.li
                     key={index}
@@ -94,10 +94,15 @@ export function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 + 0.4 }}
-                    className="flex items-center gap-3 text-slate-700 font-medium"
+                    className="flex items-start gap-3"
                   >
-                    <CheckCircle2 className="w-5 h-5 text-amber-500" />
-                    {feature}
+                    <CheckCircle2
+                      className="mt-0.5 h-5 w-5 shrink-0 text-amber-500"
+                      aria-hidden
+                    />
+                    <span className="min-w-0 flex-1 text-lg leading-relaxed text-slate-700">
+                      {feature}
+                    </span>
                   </motion.li>
                 ))}
               </ul>

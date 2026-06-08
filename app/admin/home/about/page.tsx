@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Save, Plus, Trash2, Edit2, X, Loader2 } from 'lucide-react';
+import { Save, Plus, Trash2, Edit2, X, Loader2, CheckCircle2 } from 'lucide-react';
 import { UploadButton } from '@uploadthing/react';
 import type { OurFileRouter } from '@/app/api/uploadthing/core';
 import Image from 'next/image';
@@ -360,21 +360,43 @@ export default function AboutPage() {
 
       {/* Features Card */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-slate-200 space-y-4">
-        <h3 className="text-xl font-bold text-slate-900">Features List</h3>
-
-        <div className="space-y-3">
-          {content.features.map((feature, index) => (
-            <div key={index} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-              <span className="flex-1 text-slate-700">{feature}</span>
-              <button
-                onClick={() => removeFeature(index)}
-                className="p-2 hover:bg-red-50 text-red-600 rounded-lg transition-colors"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
-            </div>
-          ))}
+        <div>
+          <h3 className="text-xl font-bold text-slate-900">Features List</h3>
+          <p className="mt-1 text-sm text-slate-600">
+            Bullet points shown on the About section — same size and alignment as on the site.
+          </p>
         </div>
+
+        {content.features.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-sm text-slate-500">
+            No features yet. Add items below.
+          </p>
+        ) : (
+          <ul className="grid grid-cols-1 gap-y-2 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-2">
+            {content.features.map((feature, index) => (
+              <li
+                key={index}
+                className="flex items-start gap-3 rounded-lg border border-slate-100 bg-slate-50 p-3"
+              >
+                <CheckCircle2
+                  className="mt-0.5 h-5 w-5 shrink-0 text-amber-500"
+                  aria-hidden
+                />
+                <span className="min-w-0 flex-1 text-lg leading-relaxed text-slate-700">
+                  {feature}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeFeature(index)}
+                  className="shrink-0 rounded-lg p-2 text-red-600 transition-colors hover:bg-red-50"
+                  aria-label={`Remove feature: ${feature}`}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
 
         <div className="flex gap-3">
           <input

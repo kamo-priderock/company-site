@@ -23,7 +23,7 @@ const showcaseItemSchema = new Schema<IShowcaseItem>(
     },
     stats: {
       type: String,
-      required: [true, 'Stats text is required'],
+      default: '',
       trim: true,
     },
     order: {

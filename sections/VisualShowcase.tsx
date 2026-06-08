@@ -9,7 +9,7 @@ interface ShowcaseItem {
   _id: string;
   title: string;
   image: string;
-  stats: string;
+  stats?: string;
   order: number;
   isActive: boolean;
 }
@@ -145,9 +145,11 @@ export function VisualShowcase() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 + 0.3 }}
                 >
-                  <p className="text-amber-500 text-sm font-bold uppercase tracking-wider mb-2">
-                    {item.stats}
-                  </p>
+                  {item.stats ? (
+                    <p className="text-amber-500 text-sm font-bold uppercase tracking-wider mb-2">
+                      {item.stats}
+                    </p>
+                  ) : null}
                   <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 font-serif">
                     {item.title}
                   </h3>

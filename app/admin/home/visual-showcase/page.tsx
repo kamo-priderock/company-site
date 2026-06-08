@@ -11,7 +11,7 @@ interface ShowcaseItem {
   _id?: string;
   title: string;
   image: string;
-  stats: string;
+  stats?: string;
   order: number;
   isActive: boolean;
 }
@@ -370,13 +370,15 @@ export default function VisualShowcasePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">Stats Text</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    Stats text <span className="font-normal text-slate-500">(optional)</span>
+                  </label>
                   <input
                     type="text"
-                    value={item.stats}
+                    value={item.stats ?? ''}
                     onChange={(e) => updateShowcaseItem(index, 'stats', e.target.value)}
                     className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
-                    placeholder="e.g., 500+ Projects"
+                    placeholder="e.g., 500+ Projects — leave blank to hide"
                   />
                 </div>
 

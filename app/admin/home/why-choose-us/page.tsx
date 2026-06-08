@@ -85,10 +85,12 @@ export default function WhyChooseUsPage() {
       const diffData = await diffRes.json();
 
       if (contentData.content) {
+        const c = contentData.content as WhyChooseUsContent & { _id?: string };
         setContent({
           ...emptyContent(),
-          ...contentData.content,
-          ctaButtonLink: contentData.content.ctaButtonLink || "/contact",
+          ...c,
+          _id: c._id != null ? String(c._id) : undefined,
+          ctaButtonLink: c.ctaButtonLink || "/contact",
         });
       } else {
         setContent(emptyContent());
@@ -102,9 +104,24 @@ export default function WhyChooseUsPage() {
     }
   };
 
-  const handleSaveContent = async () => {
+  const buildContentPayload = () => {
+    const payload = { ...content };
+    delete (payload as { _id?: string })._id;
+    return payload;
+  };
+
+  const applySavedContent = (saved: WhyChooseUsContent & { _id?: string }) => {
+    setContent({
+      ...emptyContent(),
+      ...saved,
+      _id: saved._id != null ? String(saved._id) : undefined,
+      ctaButtonLink: saved.ctaButtonLink || "/contact",
+    });
+  };
+
+  const handleSaveContent = async (successMessage = "Section content saved!") => {
     setSavingContent(true);
-    const tid = toast.loading("Saving section content...");
+    const tid = toast.loading("Saving...");
     try {
       const url = content._id
         ? `/api/why-choose-us/${content._id}`
@@ -113,21 +130,22 @@ export default function WhyChooseUsPage() {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(content),
+        body: JSON.stringify(buildContentPayload()),
       });
-      if (!res.ok) throw new Error("Save failed");
       const data = await res.json();
-      if (data.content) {
-        setContent({
-          ...emptyContent(),
-          ...data.content,
-          ctaButtonLink: data.content.ctaButtonLink || "/contact",
-        });
+      if (!res.ok) {
+        throw new Error(data.error || "Save failed");
       }
-      toast.success("Section content saved!", { id: tid });
+      if (data.content) {
+        applySavedContent(data.content);
+      }
+      toast.success(successMessage, { id: tid });
     } catch (e) {
       console.error(e);
-      toast.error("Could not save section content", { id: tid });
+      toast.error(
+        e instanceof Error ? e.message : "Could not save section content",
+        { id: tid }
+      );
     } finally {
       setSavingContent(false);
     }
@@ -275,7 +293,8 @@ export default function WhyChooseUsPage() {
           </p>
         </div>
         <button
-          onClick={handleSaveContent}
+          type="button"
+          onClick={() => handleSaveContent()}
           disabled={savingContent}
           className="flex items-center gap-2 px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50"
         >
@@ -398,7 +417,22 @@ export default function WhyChooseUsPage() {
       </div>
 
       <div className="bg-white rounded-lg p-6 shadow-sm border border-slate-200 space-y-6">
-        <h3 className="text-xl font-bold text-slate-900">Bottom CTA Section</h3>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h3 className="text-xl font-bold text-slate-900">Bottom CTA Section</h3>
+          <button
+            type="button"
+            onClick={() => handleSaveContent("Bottom CTA saved!")}
+            disabled={savingContent}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            {savingContent ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Save className="w-4 h-4" />
+            )}
+            Save CTA
+          </button>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>

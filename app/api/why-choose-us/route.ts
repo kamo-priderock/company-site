@@ -21,10 +21,35 @@ export async function GET(request: NextRequest) {
   }
 }
 
+function stripMongoFields<T extends Record<string, unknown>>(raw: T) {
+  const data = { ...raw };
+  delete data._id;
+  delete data.__v;
+  delete data.createdAt;
+  delete data.updatedAt;
+  return data;
+}
+
 export async function POST(request: NextRequest) {
   try {
     await dbConnect();
-    const data = await request.json();
+    const data = stripMongoFields(
+      (await request.json()) as Record<string, unknown>
+    );
+
+    const existing = await WhyChooseUsContent.findOne().sort({ createdAt: -1 });
+    if (existing) {
+      const content = await WhyChooseUsContent.findByIdAndUpdate(
+        existing._id,
+        data,
+        { new: true, runValidators: true }
+      );
+      return NextResponse.json(
+        { message: "Why choose us content updated successfully", content },
+        { status: 200 }
+      );
+    }
+
     const content = await WhyChooseUsContent.create(data);
     return NextResponse.json(
       { message: "Why choose us content created successfully", content },
