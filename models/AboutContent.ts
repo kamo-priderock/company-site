@@ -4,7 +4,10 @@ export interface IAboutContent extends Document {
   title: string;
   subtitle: string;
   description: string;
+  /** Photo beside the about copy (homepage + /about section) */
   image: string;
+  /** Hero banner at the top of /about only */
+  bannerImage: string;
   features: string[];
   isActive: boolean;
   createdAt: Date;
@@ -30,7 +33,11 @@ const aboutContentSchema = new Schema<IAboutContent>(
     },
     image: {
       type: String,
-      required: [true, 'Image URL is required'],
+      default: '',
+    },
+    bannerImage: {
+      type: String,
+      default: '',
     },
     features: {
       type: [String],

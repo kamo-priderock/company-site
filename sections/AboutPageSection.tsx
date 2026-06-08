@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { AboutSectionLayout } from "@/components/AboutSectionLayout";
 
-interface HomeAboutContent {
+interface AboutPageContent {
   _id: string;
   title: string;
   subtitle: string;
@@ -14,20 +14,20 @@ interface HomeAboutContent {
   isActive: boolean;
 }
 
-export function About() {
-  const [content, setContent] = useState<HomeAboutContent | null>(null);
+export function AboutPageSection() {
+  const [content, setContent] = useState<AboutPageContent | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
       try {
-        const response = await fetch("/api/home-about");
+        const response = await fetch("/api/about-page-content");
         const data = await response.json();
         if (data.content) {
           setContent(data.content);
         }
       } catch (error) {
-        console.error("Error fetching home about section:", error);
+        console.error("Error fetching about page content:", error);
       } finally {
         setLoading(false);
       }
@@ -51,7 +51,7 @@ export function About() {
             No content available
           </h3>
           <p className="text-slate-600">
-            Add homepage about content under Home Page → About Section
+            Add about page content under About Page → Page Content
           </p>
         </div>
       </section>
@@ -67,7 +67,6 @@ export function About() {
         image: content.image,
         features: content.features,
       }}
-      showLearnMore
       showStats
     />
   );

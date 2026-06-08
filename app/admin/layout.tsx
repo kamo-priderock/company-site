@@ -47,7 +47,6 @@ const menuItems: MenuItem[] = [
         label: "Category landing pages",
         href: "/admin/home/category-pages",
       },
-      { icon: FileText, label: 'About Section', href: '/admin/home/about' },
       { icon: Briefcase, label: 'Featured Projects',  href: "/admin/home/featured-projects", },
       { icon: Image, label: 'Visual Showcase', href: '/admin/home/visual-showcase' },
       { icon: Settings, label: 'Why Choose Us', href: '/admin/home/why-choose-us' },
@@ -59,8 +58,7 @@ const menuItems: MenuItem[] = [
     label: 'About Page',
     children: [
       { icon: FileText, label: 'Page Content', href: '/admin/about/content' },
-      { icon: Users, label: 'Team Section', href: '/admin/about/team' },
-      { icon: Image, label: 'Gallery', href: '/admin/about/gallery' },
+
     ]
   },
   { 

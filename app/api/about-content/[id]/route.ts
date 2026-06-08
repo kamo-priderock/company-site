@@ -10,7 +10,13 @@ export async function PUT(
     await dbConnect();
 
     const { id } = await params;
-    const data = await request.json();
+    const raw = await request.json();
+    const data = { ...raw };
+    delete data._id;
+    delete data.__v;
+    delete data.createdAt;
+    delete data.updatedAt;
+
     const content = await AboutContent.findByIdAndUpdate(
       id,
       data,

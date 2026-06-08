@@ -30,3 +30,17 @@ Columns can be saved with title + image only; homepage grid shows title without 
 - **`app/admin/footer/page.tsx`**: Full admin UI with link repeaters, logo upload, social URLs.
 - **`app/admin/layout.tsx`**: **Footer** nav entry (`/admin/footer`).
 - **`components/Footer.tsx`**: Fetches `/api/footer`, falls back to defaults; hides empty social icons and link columns.
+
+## About section split — homepage vs `/about` page
+
+**Branch:** `main`
+
+- **`models/HomeAboutSection.ts`**, **`models/AboutPageContent.ts`**: Separate Mongo collections for landing-page about block vs full about page.
+- **`app/api/home-about/`**, **`app/api/about-page-content/`**: Dedicated GET/POST/PUT APIs; legacy `AboutContent` auto-migrates on first fetch when new collections are empty (`lib/aboutLegacyMigrate.ts`).
+- **`components/AboutSectionLayout.tsx`**: Shared layout for both public about sections.
+- **`sections/About.tsx`**: Homepage only — fetches `/api/home-about`, shows “Learn More” + stats.
+- **`sections/AboutPageSection.tsx`**: `/about` body — fetches `/api/about-page-content`.
+- **`app/(site)/about/page.tsx`**: Banner from `bannerTitle` / `bannerSubtitle` / `bannerImage` on about-page content.
+- **`app/admin/home/about/page.tsx`**: Edits homepage about + statistics only (`/api/home-about`).
+- **`app/admin/about/content/page.tsx`**: Full about page editor — banner + section copy, image, features (`/api/about-page-content`).
+- **`app/admin/layout.tsx`**: **About Page → Page Content** nav link restored.

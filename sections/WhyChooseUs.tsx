@@ -236,7 +236,7 @@ export function WhyChooseUs() {
 
                     <p className="text-slate-200 leading-relaxed">{item.description}</p>
 
-                    <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-300 group-hover:text-amber-400 transition-colors duration-300">
+                    {/* <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-300 group-hover:text-amber-400 transition-colors duration-300">
                       <span>Learn more</span>
                       <svg
                         className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
@@ -251,7 +251,7 @@ export function WhyChooseUs() {
                           d="M17 8l4 4m0 0l-4 4m4-4H3"
                         />
                       </svg>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

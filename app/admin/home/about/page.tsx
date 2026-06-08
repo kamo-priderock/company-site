@@ -6,7 +6,7 @@ import { UploadButton } from '@uploadthing/react';
 import type { OurFileRouter } from '@/app/api/uploadthing/core';
 import Image from 'next/image';
 
-interface AboutContent {
+interface HomeAboutContent {
   _id?: string;
   title: string;
   subtitle: string;
@@ -26,7 +26,7 @@ interface Statistic {
 }
 
 export default function AboutPage() {
-  const [content, setContent] = useState<AboutContent>({
+  const [content, setContent] = useState<HomeAboutContent>({
     title: '',
     subtitle: '',
     description: '',
@@ -55,7 +55,7 @@ export default function AboutPage() {
   const fetchData = async () => {
     try {
       const [contentRes, statsRes] = await Promise.all([
-        fetch('/api/about-content'),
+        fetch('/api/home-about?includeInactive=true'),
         fetch('/api/statistics')
       ]);
 
@@ -63,7 +63,10 @@ export default function AboutPage() {
       const statsData = await statsRes.json();
 
       if (contentData.content) {
-        setContent(contentData.content);
+        setContent({
+          ...contentData.content,
+          image: contentData.content.image ?? '',
+        });
       }
       setStatistics(statsData.statistics || []);
     } catch (error) {
@@ -77,15 +80,18 @@ export default function AboutPage() {
     setSaving(true);
     try {
       const url = content._id 
-        ? `/api/about-content/${content._id}`
-        : '/api/about-content';
+        ? `/api/home-about/${content._id}`
+        : '/api/home-about';
       
       const method = content._id ? 'PUT' : 'POST';
+
+      const payload = { ...content };
+      delete payload._id;
 
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(content),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -216,8 +222,12 @@ export default function AboutPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold text-slate-900">About Section</h2>
-          <p className="text-slate-600 mt-1">Manage the about section content and statistics</p>
+          <h2 className="text-3xl font-bold text-slate-900">Homepage About Section</h2>
+          <p className="text-slate-600 mt-1">
+            Content for the about block on the landing page only. The{" "}
+            <code className="rounded bg-slate-100 px-1 text-xs">/about</code> page
+            is edited under <strong>About Page → Page Content</strong>.
+          </p>
         </div>
         <button
           onClick={handleSaveContent}
@@ -284,14 +294,17 @@ export default function AboutPage() {
 
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Image
+              Company section image
             </label>
+            <p className="mb-3 text-sm text-slate-500">
+              Shown beside the about text on the homepage only.
+            </p>
 
             {content.image && (
-              <div className="mb-4 relative aspect-video rounded-lg overflow-hidden">
+              <div className="mb-4 relative aspect-[4/3] max-w-xl rounded-lg overflow-hidden">
                 <Image
                   src={content.image}
-                  alt="About preview"
+                  alt="About section preview"
                   fill
                   sizes="100vw"
                   unoptimized
@@ -326,7 +339,7 @@ export default function AboutPage() {
                   allowedContent: 'text-slate-600 text-sm',
                 }}
                 content={{
-                  button: 'Upload Image',
+                  button: 'Upload section image',
                   allowedContent: 'Images up to 16MB',
                 }}
               />
