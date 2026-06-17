@@ -12,7 +12,6 @@ import {
   ChevronRight,
   Home,
   ChevronDown,
-  Layers,
   PanelBottom,
 } from "lucide-react";
 import Link from 'next/link';
@@ -42,11 +41,6 @@ const menuItems: MenuItem[] = [
     children: [
       { icon: Image, label: "Hero Carousel", href: "/admin/home/hero" },
       { icon: Home, label: "Categories", href: "/admin/home/categories" },
-      {
-        icon: Layers,
-        label: "Category landing pages",
-        href: "/admin/home/category-pages",
-      },
       { icon: Briefcase, label: 'Featured Projects',  href: "/admin/home/featured-projects", },
       { icon: Image, label: 'Visual Showcase', href: '/admin/home/visual-showcase' },
       { icon: Settings, label: 'Why Choose Us', href: '/admin/home/why-choose-us' },

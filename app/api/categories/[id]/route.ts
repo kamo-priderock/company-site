@@ -2,6 +2,33 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import Category from '@/models/Category';
 
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    await dbConnect();
+
+    const { id } = await params;
+    const category = await Category.findById(id);
+
+    if (!category) {
+      return NextResponse.json(
+        { error: 'Category not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ category }, { status: 200 });
+  } catch (error) {
+    console.error('Error fetching category:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch category' },
+      { status: 500 }
+    );
+  }
+}
+
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
