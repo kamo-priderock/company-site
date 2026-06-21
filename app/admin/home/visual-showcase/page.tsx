@@ -31,6 +31,15 @@ interface StatsBanner {
   isActive: boolean;
 }
 
+interface Statistic {
+  _id?: string;
+  value: number;
+  label: string;
+  suffix: string;
+  order: number;
+  isActive: boolean;
+}
+
 interface TwoColumnSection {
   _id?: string;
   leftImage: string;
@@ -47,9 +56,19 @@ export default function VisualShowcasePage() {
   const [showcaseItems, setShowcaseItems] = useState<ShowcaseItem[]>([]);
   const [fullWidthSection, setFullWidthSection] = useState<FullWidthSection | null>(null);
   const [statsBanner, setStatsBanner] = useState<StatsBanner | null>(null);
+  const [statistics, setStatistics] = useState<Statistic[]>([]);
   const [twoColumnSection, setTwoColumnSection] = useState<TwoColumnSection | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [editingStatId, setEditingStatId] = useState<string | null>(null);
+  const [isAddingStat, setIsAddingStat] = useState(false);
+  const [statFormData, setStatFormData] = useState<Statistic>({
+    value: 0,
+    label: '',
+    suffix: '',
+    order: 0,
+    isActive: true,
+  });
 
   useEffect(() => {
     fetchData();
@@ -57,19 +76,22 @@ export default function VisualShowcasePage() {
 
   const fetchData = async () => {
     try {
-      const [showcaseRes, fullWidthRes, statsBannerRes, twoColumnRes] = await Promise.all([
+      const [showcaseRes, fullWidthRes, statsBannerRes, statsRes, twoColumnRes] = await Promise.all([
         fetch('/api/showcase-items'),
         fetch('/api/full-width-section'),
         fetch('/api/stats-banner'),
+        fetch('/api/statistics'),
         fetch('/api/two-column-section')
       ]);
 
       const showcaseData = await showcaseRes.json();
       const fullWidthData = await fullWidthRes.json();
       const statsBannerData = await statsBannerRes.json();
+      const statsData = await statsRes.json();
       const twoColumnData = await twoColumnRes.json();
 
       setShowcaseItems(showcaseData.items || []);
+      setStatistics(statsData.statistics || []);
       
       // Initialize with default values if null
       setFullWidthSection(fullWidthData.section || {
@@ -272,6 +294,95 @@ export default function VisualShowcasePage() {
     const updated = [...showcaseItems];
     updated[index] = { ...updated[index], [field]: value };
     setShowcaseItems(updated);
+  };
+
+  const handleAddStat = () => {
+    setStatFormData({
+      value: 0,
+      label: '',
+      suffix: '',
+      order: statistics.length,
+      isActive: true,
+    });
+    setIsAddingStat(true);
+    setEditingStatId(null);
+  };
+
+  const handleEditStat = (stat: Statistic) => {
+    setStatFormData(stat);
+    setEditingStatId(stat._id || null);
+    setIsAddingStat(false);
+  };
+
+  const handleSaveStat = async () => {
+    const toastId = toast.loading('Saving statistic...');
+    try {
+      if (isAddingStat) {
+        const response = await fetch('/api/statistics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(statFormData),
+        });
+
+        if (response.ok) {
+          await fetchData();
+          resetStatForm();
+          toast.success('Statistic created successfully!', { id: toastId });
+        } else {
+          toast.error('Failed to create statistic', { id: toastId });
+        }
+      } else if (editingStatId) {
+        const response = await fetch(`/api/statistics/${editingStatId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(statFormData),
+        });
+
+        if (response.ok) {
+          await fetchData();
+          resetStatForm();
+          toast.success('Statistic updated successfully!', { id: toastId });
+        } else {
+          toast.error('Failed to update statistic', { id: toastId });
+        }
+      }
+    } catch (error) {
+      console.error('Error saving statistic:', error);
+      toast.error('An error occurred while saving', { id: toastId });
+    }
+  };
+
+  const handleDeleteStat = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this statistic?')) return;
+
+    const toastId = toast.loading('Deleting statistic...');
+    try {
+      const response = await fetch(`/api/statistics/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await fetchData();
+        toast.success('Statistic deleted successfully!', { id: toastId });
+      } else {
+        toast.error('Failed to delete statistic', { id: toastId });
+      }
+    } catch (error) {
+      console.error('Error deleting:', error);
+      toast.error('An error occurred while deleting', { id: toastId });
+    }
+  };
+
+  const resetStatForm = () => {
+    setStatFormData({
+      value: 0,
+      label: '',
+      suffix: '',
+      order: 0,
+      isActive: true,
+    });
+    setEditingStatId(null);
+    setIsAddingStat(false);
   };
 
   if (loading) {
@@ -547,12 +658,12 @@ export default function VisualShowcasePage() {
         )}
       </div>
 
-      {/* Stats Banner - Only Background Image */}
+      {/* Stats Banner */}
       <div className="bg-white rounded-lg p-6 shadow-sm border border-slate-200 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-xl font-bold text-slate-900">Stats Banner Background</h3>
-            <p className="text-sm text-slate-500 mt-1">Statistics are managed in the About Section</p>
+            <h3 className="text-xl font-bold text-slate-900">Stats Banner</h3>
+            <p className="text-sm text-slate-500 mt-1">Background image and the stat values shown on the banner</p>
           </div>
           <button
             onClick={handleSaveStatsBanner}
@@ -620,6 +731,136 @@ export default function VisualShowcasePage() {
             </div>
           </div>
         )}
+
+        <div className="border-t border-slate-200 pt-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <h4 className="text-lg font-bold text-slate-900">Statistics</h4>
+            <button
+              onClick={handleAddStat}
+              className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors text-sm"
+            >
+              <Plus className="w-4 h-4" />
+              Add Statistic
+            </button>
+          </div>
+
+          {(editingStatId || isAddingStat) && (
+            <div className="p-4 bg-slate-50 rounded-lg space-y-4 border-2 border-amber-200">
+              <div className="flex items-center justify-between">
+                <h5 className="font-medium text-slate-900">
+                  {isAddingStat ? 'Add New Statistic' : 'Edit Statistic'}
+                </h5>
+                <button onClick={resetStatForm} className="p-1 hover:bg-slate-200 rounded">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Value</label>
+                  <input
+                    type="number"
+                    value={statFormData.value}
+                    onChange={(e) => setStatFormData({ ...statFormData, value: parseInt(e.target.value) || 0 })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="14"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Label</label>
+                  <input
+                    type="text"
+                    value={statFormData.label}
+                    onChange={(e) => setStatFormData({ ...statFormData, label: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="Years"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Suffix</label>
+                  <input
+                    type="text"
+                    value={statFormData.suffix}
+                    onChange={(e) => setStatFormData({ ...statFormData, suffix: e.target.value })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="+"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Order</label>
+                  <input
+                    type="number"
+                    value={statFormData.order}
+                    onChange={(e) => setStatFormData({ ...statFormData, order: parseInt(e.target.value) || 0 })}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="0"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="statActive"
+                    checked={statFormData.isActive}
+                    onChange={(e) => setStatFormData({ ...statFormData, isActive: e.target.checked })}
+                    className="w-4 h-4 text-amber-600 border-slate-300 rounded focus:ring-amber-500"
+                  />
+                  <label htmlFor="statActive" className="text-sm text-slate-700">
+                    Active
+                  </label>
+                </div>
+
+                <button
+                  onClick={handleSaveStat}
+                  className="ml-auto flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors text-sm"
+                >
+                  <Save className="w-4 h-4" />
+                  Save Statistic
+                </button>
+              </div>
+            </div>
+          )}
+
+          {statistics.length === 0 ? (
+            <div className="text-center py-8 text-slate-500">
+              <p>No statistics yet. Click &quot;Add Statistic&quot; to create one.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {statistics.map((stat) => (
+                <div key={stat._id} className="p-4 bg-slate-50 rounded-lg space-y-3 relative">
+                  {!stat.isActive && (
+                    <span className="absolute top-2 right-2 text-xs bg-slate-600 text-white px-2 py-1 rounded">
+                      Inactive
+                    </span>
+                  )}
+                  <div className="text-3xl font-bold text-amber-600">
+                    {stat.value}{stat.suffix}
+                  </div>
+                  <div className="text-sm text-slate-700">{stat.label}</div>
+                  <div className="text-xs text-slate-500">Order: {stat.order}</div>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      onClick={() => handleEditStat(stat)}
+                      className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-sm transition-colors"
+                    >
+                      <Edit2 className="w-3 h-3" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteStat(stat._id!)}
+                      className="flex items-center justify-center gap-1 px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded text-sm transition-colors"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Two Column Section */}
